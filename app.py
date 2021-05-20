@@ -66,7 +66,7 @@ async def assignment(brand: str , company: str):
     except Exception as e:
         print(e)
         return {
-        'code' : 400
+        'code' : 401
         }
         
     
