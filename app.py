@@ -62,7 +62,10 @@ app = FastAPI()
 async def assignment(brand: str , company: str):
     
     try: 
-        return final_match(brand, company,company_name_map,company_name_list, data_df)
+        match = final_match(brand, company,company_name_map,company_name_list, data_df)
+        if match['conf_level'] <40:
+            return {'code' :400 }
+        else return match
     except Exception as e:
         print(e)
         return {
