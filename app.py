@@ -43,7 +43,7 @@ def get_row_json(brand_input , df, company_matches_map):
 def final_match(brand_input, company_input,company_name_map,company_name_list, data_df):
         try:
             company_input = clean_text(company_input)
-            company_matches = process.extract(company_input,company_name_list,scorer=fuzz.WRatio,limit=3)
+            company_matches = process.extract(company_input,company_name_list,scorer=fuzz.WRatio,limit=3) # top 3 company matches companies retireved
             company_matches_map = {i[0]: i[1] for i in company_matches} #map of company name and conf_level of the match
             df_case =pd.DataFrame(columns=data_df.columns) #narrowed down list of brand_inputs
             for i in company_matches:
@@ -70,7 +70,7 @@ async def assignment(brand: str , company: str):
     except Exception as e:
         print(e)
         return {
-        'code' : 401
+        'code' : 400
         }
         
     
