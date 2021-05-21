@@ -43,7 +43,8 @@ def get_row_json(brand_input , df, company_matches_map):
 def final_match(brand_input, company_input,company_name_map,company_name_list, data_df):
         try:
             company_input = clean_text(company_input)
-            company_matches = process.extract(company_input,company_name_list,scorer=fuzz.WRatio,limit=3) # top 3 company matches companies retireved
+            THRESHOLD_COMPANY_MATCH = int(os.getenv('THRESHOLD_COMPANY_MATCH'))
+            company_matches = process.extract(company_input,company_name_list,scorer=fuzz.WRatio,limit= THRESHOLD_COMPANY_MATCH) # top 3 company matches companies retireved
             company_matches_map = {i[0]: i[1] for i in company_matches} #map of company name and conf_level of the match
             df_case =pd.DataFrame(columns=data_df.columns) #narrowed down list of brand_inputs
             for i in company_matches:
@@ -63,7 +64,8 @@ async def assignment(brand: str , company: str):
     
     try: 
         match = final_match(brand, company,company_name_map,company_name_list, data_df)
-        if match['conf_level'] <40:
+        THRESHOLD_CONF_LEVEL = int(os.getenv('THRESHOLD_CONF_LEVEL'))
+        if match['conf_level'] < THRESHOLD_CONF_LEVEL:
             return {'code' :404}
         else :
              return match
