@@ -64,7 +64,7 @@ async def assignment(brand: str , company: str):
     try: 
         match = final_match(brand, company,company_name_map,company_name_list, data_df)
         if match['conf_level'] <40:
-            return {'code' :400 }
+            return {'code' :404}
         else :
              return match
     except Exception as e:
